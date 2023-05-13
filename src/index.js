@@ -6,21 +6,43 @@ import reportWebVitals from './reportWebVitals';
 import Login from './components/Login';
 import Register from './components/Register';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import firebase, {auth, provider} from './firebase.js';
 
 class AppRouter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {user: null}
+  }
+  componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      if(user){
+        this.setState({user});
+      }
+    })
+  }
+  logOutUser = () => {
+    firebase.auth().signOut()
+    .then(window.location = "/");
+  }
   render() {
     return (
       <Router>
-        <div ClassName="app">
+        <div className="app">
           <nav className="main-nav">
-            <Link to="/">Home</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            {!this.state.user &&
+            <div>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </div>
+            }
+            {this.state.user &&
+              <a href="#!" onClick={this.logOutUser}>Logout</a>
+            }
           </nav>
           <Switch>
-            <Route exact path="/" component={App} />
-            <Router exact path="/login" component={Login} />
-            <Router exact path="/register" component={Register} />
+            <Route path="/" exact render={() => <App user={this.state.user}/>} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={Register} />
           </Switch>
         </div>
       </Router>
@@ -34,4 +56,4 @@ root.render(<AppRouter />);
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals();
