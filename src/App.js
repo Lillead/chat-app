@@ -34,19 +34,19 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>Chat app</h1>
+        <h1 className="m-3">Chat app</h1>
         {this.props.user && (
         <div className="allow-chat">
         <Chatbox />
         <form className="message-form" onSubmit={this.onSubmit}>
-          <input
+          <input className="col-md-6"
             type="text"
             name="message"
             id="message"
             value={this.state.message}
             placeholder="Enter a message..."
             onChange={this.onChange} />
-          <button>Send</button>
+          <button className="btn btn-success m-2">Send</button>
         </form>
       </div>
       )}

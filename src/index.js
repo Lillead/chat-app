@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import Login from './components/Login';
 import Register from './components/Register';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import firebase, {auth, provider} from './firebase.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class AppRouter extends React.Component {
   constructor(props) {
@@ -28,15 +28,15 @@ class AppRouter extends React.Component {
     return (
       <Router>
         <div className="app">
-          <nav className="main-nav">
+          <nav className="navbar navbar-expand-lg navbar-light bg-success justify-content-end">
             {!this.state.user &&
-            <div>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-            </div>
+              <div className="d-flex flex-wrap">
+                <Link to="/login" className="nav-link text-light m-3">Login</Link>
+                <Link to="/register" className="nav-link text-light m-3">Register</Link>
+              </div>
             }
             {this.state.user &&
-              <a href="#!" onClick={this.logOutUser}>Logout</a>
+              <a href="#!" className="nav-link text-light m-3" onClick={this.logOutUser}>Logout</a>
             }
           </nav>
           <Switch>
@@ -52,8 +52,3 @@ class AppRouter extends React.Component {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<AppRouter />);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
